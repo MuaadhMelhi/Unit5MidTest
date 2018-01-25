@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.source_re);
         topImage = findViewById(R.id.top_image);
         topTilte = findViewById(R.id.top_name);
+        diagonalLayout = findViewById(R.id.diagonalLayout);
     }
 
     private void loadPeopleData(PeopleService peopleService) {
@@ -93,11 +94,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getFirstPerson(Result result) {
+    private void getFirstPerson(final Result result) {
         Picasso.with(getBaseContext())
                 .load(result.getPicture().getLarge())
                 .into(topImage);
         topTilte.setText(result.getName().getFirst() + " " + result.getName().getLast());
+
+        diagonalLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                //serLiztion
+                String resultAsString = new Gson().toJson(result);
+                Bundle bundle = new Bundle();
+                bundle.putString("result", resultAsString);
+                topFragment = new DetailFragment();
+                manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                topFragment.setArguments(bundle);
+                transaction.addToBackStack("").replace(R.id.container, topFragment).commit();
+            }
+        });
 
     }
 
