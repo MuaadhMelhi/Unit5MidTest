@@ -52,9 +52,23 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         peopleService = Info.getPeopleService();
+        //cache data
+        String cache = Paper.book().read("cache");
+        if (cache != null && !cache.isEmpty()) {
+            People result = new Gson().fromJson(cache, People.class);
+            List<Result> list = result.getResults();
+            getFirstPerson(result.getResults().get(0));
+            list.remove(0);
+            peopleAdapter = new PeopleAdapter(list);
+            peopleAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(peopleAdapter);
+        } else {
 
-        //load data
-        loadPeopleData(peopleService);
+            //load data if there's internet
+            loadPeopleData(peopleService);
+        }
+
+
     }
 
     private void setUpView() {
