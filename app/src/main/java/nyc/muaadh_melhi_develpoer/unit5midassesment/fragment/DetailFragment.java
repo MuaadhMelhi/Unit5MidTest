@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -57,15 +59,26 @@ public class DetailFragment extends Fragment {
         Picasso.with(getActivity().getBaseContext())
                 .load(result.getPicture().getLarge())
                 .into(image);
-        name.setText(result.getName().getFirst()+" "+result.getName().getLast());
+        name.setText(result.getName().getFirst() + " " + result.getName().getLast());
         phoneNumber.setText(result.getCell());
         email.setText(result.getEmail());
         street.setText(result.getLocation().getStreet());
         city.setText(result.getLocation().getCity());
         state.setText(result.getLocation().getState());
-        zipcode.setText(""+result.getLocation().getPostcode());
+        zipcode.setText("" + result.getLocation().getPostcode());
         dBrith.setText(result.getDob());
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.new_refersh);
+        item.setVisible(false);
+    }
 }

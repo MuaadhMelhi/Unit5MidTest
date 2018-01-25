@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private PeopleAdapter peopleAdapter;
     private DetailFragment topFragment;
     private FragmentManager manager;
+    private MenuInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getMoreInfo(Result result) {
         recyclerView.setVisibility(View.GONE);
+
         //serLiztion
         String resultAsString = new Gson().toJson(result);
         Bundle bundle = new Bundle();
